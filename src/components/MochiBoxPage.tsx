@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import LogoMark from "@/components/LogoMark";
 import {
   beads,
   clips,
@@ -227,22 +229,10 @@ export default function MochiBoxPage() {
     <>
       <nav>
         <a className="logo" href="#top">
-          <svg className="blob" viewBox="0 0 100 100">
-            <g stroke="#43283C" strokeWidth="5">
-              <path
-                fill="#FFD96B"
-                d="M50 8C72 8 88 26 88 50s-16 42-38 42S12 74 12 50 28 8 50 8z"
-              />
-              <circle cx="38" cy="50" r="4.5" fill="#43283C" stroke="none" />
-              <circle cx="62" cy="50" r="4.5" fill="#43283C" stroke="none" />
-              <path fill="none" d="M42 62q8 7 16 0" />
-              <circle cx="30" cy="60" r="5" fill="#FF7BAC" stroke="none" opacity=".7" />
-              <circle cx="70" cy="60" r="5" fill="#FF7BAC" stroke="none" opacity=".7" />
-            </g>
-          </svg>
+          <LogoMark className="logo-mark" />
           <span>
             <b>Mochi&nbsp;Box</b>
-            <small>もこもこ KAWAII</small>
+            <small>もこもこ · MYSTERY SHOP</small>
           </span>
         </a>
         <div className="navlinks">
@@ -751,7 +741,16 @@ export default function MochiBoxPage() {
       </section>
 
       <footer>
-        <div className="foot-logo">もこもこ Mochi Box</div>
+        <div className="foot-logo-wrap">
+          <Image
+            src="/mochi-box-logo.png"
+            alt="Mochi Box — Mystery Shop"
+            width={560}
+            height={560}
+            className="foot-logo-img"
+            priority={false}
+          />
+        </div>
         <div className="foot-links">
           <a href="#boxy">Boxy</a>
           <a href="#jak">Jak to funguje</a>
