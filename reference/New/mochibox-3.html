@@ -1,0 +1,983 @@
+<!-- Mochi Box — Kawaii Mystery Box e-shop -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>もこもこ Mochi Box — Kawaii Mystery Boxy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#FFF3E6;
+  --milk:#FFFCF7;
+  --strawberry:#FF7BAC;
+  --berry:#E94B8E;
+  --deepberry:#C73074;
+  --sky:#8FD7F4;
+  --mint:#9EE6C4;
+  --butter:#FFD96B;
+  --lav:#C9B6F7;
+  --peach:#FFB48F;
+  --ink:#5A3E50;
+  --line:#43283C;
+  --shadow:#E9A6C6;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Zen Maru Gothic',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* polka dot + grain texture background */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(circle at 50% 50%, var(--shadow) 1.5px, transparent 1.6px) 0 0/26px 26px,
+    radial-gradient(circle at 50% 50%, var(--shadow) 1.5px, transparent 1.6px) 13px 13px/26px 26px;
+  opacity:.25;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity:.04;
+}
+
+h1,h2,h3,.display{font-family:'Baloo 2',cursive}
+.jp{font-family:'Mochiy Pop One',sans-serif}
+
+/* ---------- NAV ---------- */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;
+  background:rgba(255,252,247,.82);
+  backdrop-filter:blur(10px);
+  border-bottom:3px solid var(--line);
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--line)}
+.logo .blob{width:38px;height:38px}
+.logo b{font-family:'Baloo 2';font-weight:800;font-size:1.35rem;line-height:1}
+.logo small{font-family:'Mochiy Pop One';font-size:.62rem;color:var(--berry);display:block}
+.navlinks{display:flex;gap:26px;align-items:center}
+.navlinks a{
+  text-decoration:none;color:var(--ink);font-weight:700;font-size:.95rem;
+  position:relative;transition:color .2s;
+}
+.navlinks a::after{
+  content:"";position:absolute;left:0;bottom:-4px;width:0;height:3px;
+  background:var(--berry);border-radius:3px;transition:width .25s;
+}
+.navlinks a:hover{color:var(--berry)}
+.navlinks a:hover::after{width:100%}
+.cart-btn{
+  display:flex;align-items:center;gap:7px;
+  background:var(--butter);
+  border:3px solid var(--line);
+  border-radius:30px;padding:8px 16px;font-family:'Baloo 2';font-weight:700;
+  color:var(--line);cursor:pointer;
+  box-shadow:3px 3px 0 var(--line);
+  transition:transform .12s, box-shadow .12s;
+}
+.cart-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--line)}
+.cart-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.cart-count{background:var(--berry);color:#fff;border-radius:50%;width:22px;height:22px;
+  display:grid;place-items:center;font-size:.78rem;border:2px solid var(--line)}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;text-align:center;
+  padding:70px 20px 90px;
+  overflow:hidden;
+}
+.eyebrow{
+  display:inline-block;background:var(--mint);border:3px solid var(--line);
+  border-radius:30px;padding:6px 18px;font-family:'Baloo 2';font-weight:700;
+  color:var(--line);font-size:.9rem;margin-bottom:22px;
+  box-shadow:3px 3px 0 var(--line);transform:rotate(-2deg);
+}
+.hero h1{
+  font-size:clamp(2.6rem,8vw,5.4rem);font-weight:800;line-height:1.02;
+  color:var(--deepberry);letter-spacing:-1px;
+  text-shadow:4px 4px 0 #fff, 7px 7px 0 var(--strawberry);
+}
+.hero h1 .wiggle{display:inline-block;color:var(--sky);
+  text-shadow:4px 4px 0 #fff,7px 7px 0 var(--berry);}
+.hero p.lead{
+  max-width:540px;margin:24px auto 0;font-size:1.15rem;font-weight:500;color:var(--ink);
+}
+.hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.btn{
+  font-family:'Baloo 2';font-weight:800;font-size:1.05rem;cursor:pointer;
+  border:3px solid var(--line);border-radius:40px;padding:15px 34px;
+  text-decoration:none;color:var(--line);
+  box-shadow:5px 5px 0 var(--line);
+  transition:transform .12s,box-shadow .12s;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--line)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--line)}
+.btn-pink{background:var(--strawberry);color:#fff;text-shadow:1px 1px 0 var(--deepberry)}
+.btn-cream{background:var(--milk)}
+
+/* floating doodles */
+.doodle{position:absolute;z-index:0;animation:float 6s ease-in-out infinite}
+.doodle.d1{top:8%;left:6%;width:70px;animation-delay:0s}
+.doodle.d2{top:18%;right:8%;width:84px;animation-delay:1.2s}
+.doodle.d3{top:60%;left:4%;width:64px;animation-delay:.6s}
+.doodle.d4{bottom:12%;right:6%;width:74px;animation-delay:1.8s}
+.doodle.d5{top:42%;right:18%;width:48px;animation-delay:.9s}
+.doodle.d6{top:50%;left:16%;width:52px;animation-delay:2.4s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-22px) rotate(4deg)}}
+
+/* mascot under hero */
+.mascot{width:140px;margin:36px auto 0;display:block;animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* marquee ribbon */
+.ribbon{
+  background:var(--berry);border-top:3px solid var(--line);border-bottom:3px solid var(--line);
+  overflow:hidden;white-space:nowrap;padding:12px 0;
+}
+.ribbon-track{display:inline-block;animation:scroll 22s linear infinite}
+.ribbon span{font-family:'Mochiy Pop One';color:var(--butter);font-size:1.05rem;margin:0 22px}
+.ribbon span b{color:#fff}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section{position:relative}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.section-pad{padding:80px 0}
+.sec-title{text-align:center;margin-bottom:14px}
+.sec-title h2{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:var(--deepberry)}
+.sec-title .jp{display:block;color:var(--strawberry);font-size:1rem;margin-bottom:6px;letter-spacing:2px}
+.sec-sub{text-align:center;max-width:520px;margin:0 auto 48px;font-weight:500;color:var(--ink)}
+
+/* ---------- GACHA OPENER ---------- */
+.gacha-section{background:var(--milk);border-top:3px solid var(--line);border-bottom:3px solid var(--line)}
+.gacha{
+  max-width:560px;margin:0 auto;text-align:center;
+  background:linear-gradient(160deg,#fff,var(--cream));
+  border:4px solid var(--line);border-radius:34px;padding:42px 28px 38px;
+  box-shadow:8px 8px 0 var(--line);position:relative;
+}
+.gacha .tag{
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  background:var(--lav);border:3px solid var(--line);border-radius:30px;
+  padding:6px 20px;font-family:'Baloo 2';font-weight:800;color:var(--line);
+  box-shadow:3px 3px 0 var(--line);white-space:nowrap;
+}
+.box-stage{height:230px;display:grid;place-items:center;position:relative;margin:14px 0 8px}
+#mysteryBox{width:170px;cursor:pointer;transition:transform .2s;filter:drop-shadow(0 10px 0 var(--shadow))}
+#mysteryBox:hover{transform:scale(1.05) rotate(-2deg)}
+.box-shake{animation:shake .4s ease-in-out infinite}
+@keyframes shake{0%,100%{transform:rotate(-6deg)}25%{transform:rotate(6deg) scale(1.04)}50%{transform:rotate(-4deg)}75%{transform:rotate(5deg) scale(1.05)}}
+
+.reveal{display:none;flex-direction:column;align-items:center;gap:6px;animation:pop .5s cubic-bezier(.2,1.5,.4,1)}
+.reveal.show{display:flex}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.reveal .item-emoji{font-size:5.2rem;line-height:1;filter:drop-shadow(3px 4px 0 var(--shadow))}
+.reveal .item-name{font-family:'Baloo 2';font-weight:800;font-size:1.5rem;color:var(--deepberry)}
+.rarity{font-family:'Mochiy Pop One';font-size:.8rem;padding:4px 14px;border-radius:20px;border:2px solid var(--line)}
+.r-common{background:var(--sky)}
+.r-rare{background:var(--butter)}
+.r-super{background:var(--strawberry);color:#fff;animation:sparkle 1s ease-in-out infinite}
+@keyframes sparkle{0%,100%{box-shadow:0 0 0 var(--butter)}50%{box-shadow:0 0 18px var(--butter)}}
+.gacha .hint{font-weight:500;color:var(--ink);min-height:1.4em;margin-top:4px}
+#gachaBtn{margin-top:18px}
+
+/* ---------- PRODUCTS ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px}
+.card{
+  background:var(--milk);border:4px solid var(--line);border-radius:28px;
+  padding:26px 22px 24px;text-align:center;position:relative;
+  box-shadow:6px 6px 0 var(--line);transition:transform .16s,box-shadow .16s;
+}
+.card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--line)}
+.card .badge{
+  position:absolute;top:-14px;right:18px;background:var(--berry);color:#fff;
+  border:3px solid var(--line);border-radius:20px;padding:4px 13px;
+  font-family:'Baloo 2';font-weight:700;font-size:.78rem;transform:rotate(6deg);
+}
+.card .pic{font-size:4.4rem;line-height:1;margin:8px 0 12px;filter:drop-shadow(2px 3px 0 var(--shadow))}
+.card h3{font-size:1.5rem;font-weight:800;color:var(--deepberry)}
+.card .desc{font-size:.92rem;font-weight:500;margin:8px 0 14px;color:var(--ink)}
+.card .price{font-family:'Baloo 2';font-weight:800;font-size:2rem;color:var(--berry);display:block}
+.card .price s{font-size:1rem;color:#b89aac;font-weight:600;margin-left:6px}
+.card .add{
+  margin-top:16px;width:100%;font-family:'Baloo 2';font-weight:800;font-size:1rem;
+  background:var(--mint);border:3px solid var(--line);border-radius:30px;padding:12px;
+  color:var(--line);cursor:pointer;box-shadow:4px 4px 0 var(--line);
+  transition:transform .1s,box-shadow .1s;
+}
+.card .add:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--line)}
+.card .add:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+.card.feature{background:linear-gradient(165deg,#fff,var(--lav));}
+.card.lux{background:linear-gradient(165deg,#FFFBEF,#FFE9A8);border-color:#B8860B;
+  box-shadow:6px 6px 0 #B8860B;animation:luxShine 2.4s ease-in-out infinite}
+@keyframes luxShine{
+  0%,100%{box-shadow:6px 6px 0 #B8860B,0 0 0 0 rgba(255,201,60,0)}
+  50%{box-shadow:6px 6px 0 #B8860B,0 0 24px 2px rgba(255,201,60,.75)}}
+.card.lux:hover{animation:none;transform:translate(-3px,-3px);box-shadow:9px 9px 0 #B8860B,0 0 26px 3px rgba(255,201,60,.85)}
+.card.lux::before,.card.lux::after{content:"✦";position:absolute;color:#FFB300;
+  text-shadow:0 0 6px #FFC93C;animation:twinkle 1.4s ease-in-out infinite;z-index:3;pointer-events:none}
+.card.lux::before{top:12px;left:14px;font-size:1rem}
+.card.lux::after{bottom:60px;right:16px;font-size:.8rem;animation-delay:.7s}
+.card.lux .badge{background:linear-gradient(120deg,#E8A100,#FFC93C);color:#5a3e00}
+.card.lux h3{color:#8a5a00}
+.card.lux .price{color:#9a6a00}
+.card.lux .add{background:linear-gradient(120deg,#FFD96B,#FFC93C)}
+
+/* ---------- INSIDE / categories ---------- */
+.inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px}
+
+/* ---------- PACKING / VIDEO ---------- */
+.packing{background:var(--milk);border-top:3px solid var(--line);border-bottom:3px solid var(--line)}
+.pack-flex{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center}
+.pack-text{flex:1;min-width:280px;max-width:440px}
+.pack-text h2{font-size:clamp(1.9rem,4.5vw,2.9rem);color:var(--deepberry);line-height:1.05}
+.pack-text .jp{display:block;color:var(--strawberry);font-size:1rem;letter-spacing:2px;margin-bottom:6px}
+.pack-text p{font-weight:500;margin:16px 0;font-size:1.05rem}
+.pack-points{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.pack-points li{display:flex;gap:12px;align-items:flex-start;font-weight:500}
+.pack-points .tick{flex:none;width:30px;height:30px;background:var(--mint);border:3px solid var(--line);
+  border-radius:50%;display:grid;place-items:center;font-size:.95rem}
+/* phone-style vertical video frame */
+.phone{
+  flex:none;width:270px;aspect-ratio:9/16;position:relative;
+  background:#000;border:5px solid var(--line);border-radius:38px;
+  box-shadow:10px 10px 0 var(--line);overflow:hidden;
+}
+.phone .screen{position:absolute;inset:0;
+  background:linear-gradient(150deg,var(--strawberry),var(--lav) 60%,var(--sky));
+  display:grid;place-items:center;cursor:pointer}
+.phone .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:80px;height:18px;background:var(--line);border-radius:20px;z-index:3}
+.phone .play{
+  width:74px;height:74px;background:rgba(255,255,255,.92);border:4px solid var(--line);
+  border-radius:50%;display:grid;place-items:center;z-index:2;transition:transform .15s;
+}
+.phone .screen:hover .play{transform:scale(1.12)}
+.phone .play::after{content:"";border-left:24px solid var(--berry);border-top:15px solid transparent;
+  border-bottom:15px solid transparent;margin-left:6px}
+.phone .vidcap{position:absolute;bottom:18px;left:14px;right:14px;color:#fff;z-index:2;
+  font-family:'Baloo 2';font-weight:700;text-shadow:1px 1px 0 var(--line);font-size:.95rem;text-align:left}
+.phone .hands{position:absolute;inset:0;display:grid;place-items:center;font-size:4.5rem;opacity:.4;z-index:1}
+
+/* ---------- BEAD KEY ---------- */
+.bead-key{background:var(--butter);border-top:3px solid var(--line);border-bottom:3px solid var(--line)}
+.bead-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+@media(max-width:920px){.bead-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.bead-grid{grid-template-columns:repeat(2,1fr)}}
+.bead-row{
+  display:flex;align-items:center;gap:14px;background:var(--milk);
+  border:3px solid var(--line);border-radius:24px;padding:14px 16px;
+  box-shadow:4px 4px 0 var(--line);transition:transform .14s,box-shadow .14s;
+}
+.bead-row:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--line)}
+.bead{flex:none;width:38px;height:38px;border-radius:50%;border:3px solid var(--line);
+  position:relative;box-shadow:inset -4px -4px 0 rgba(0,0,0,.12)}
+.bead::after{content:"";position:absolute;top:6px;left:8px;width:9px;height:9px;
+  background:rgba(255,255,255,.85);border-radius:50%}
+.bead.holo{background:conic-gradient(from 0deg,#FF7BAC,#FFD96B,#9EE6C4,#8FD7F4,#C9B6F7,#FF7BAC)}
+.bead.gem{background:
+  radial-gradient(circle at 26% 28%,#fff 0 2.6px,transparent 3.4px),
+  radial-gradient(circle at 68% 24%,#FFD1E8 0 2.2px,transparent 3px),
+  radial-gradient(circle at 60% 64%,#fff 0 2.4px,transparent 3.2px),
+  radial-gradient(circle at 34% 68%,#C9E7FF 0 2.2px,transparent 3px),
+  radial-gradient(circle at 80% 58%,#fff 0 1.8px,transparent 2.6px),
+  linear-gradient(150deg,#FFE3F1,#E3D5FF);
+  animation:gemSparkle 1.9s ease-in-out infinite}
+@keyframes gemSparkle{
+  0%,100%{box-shadow:inset -4px -4px 0 rgba(0,0,0,.1),0 0 0 0 rgba(201,182,247,0)}
+  50%{box-shadow:inset -4px -4px 0 rgba(0,0,0,.1),0 0 12px 2px rgba(201,182,247,.85)}}
+.bead.gold{background:radial-gradient(circle at 35% 30%,#FFF1B8,#FFC93C 60%,#E8A100);
+  animation:goldGlow 1.8s ease-in-out infinite;overflow:visible;z-index:1}
+@keyframes goldGlow{
+  0%,100%{box-shadow:inset -4px -4px 0 rgba(0,0,0,.12),0 0 0 0 rgba(255,201,60,0)}
+  50%{box-shadow:inset -4px -4px 0 rgba(0,0,0,.12),0 0 14px 3px rgba(255,201,60,.95)}}
+.bead.gold::before{content:"✦";position:absolute;top:-9px;right:-8px;font-size:.85rem;color:#FFF6C9;
+  text-shadow:0 0 5px #FFC93C;animation:twinkle 1.2s ease-in-out infinite;z-index:2}
+@keyframes twinkle{
+  0%,100%{transform:scale(.5) rotate(0deg);opacity:.3}
+  50%{transform:scale(1.2) rotate(90deg);opacity:1}}
+.bead-row .lbl b{font-family:'Baloo 2';font-weight:800;color:var(--deepberry);display:block;font-size:1.02rem}
+.bead-row .lbl span{font-size:.82rem;color:#9a7f12;font-weight:600}
+.bead-subhead{font-family:'Baloo 2';font-weight:800;color:var(--deepberry);text-align:center;
+  font-size:1.2rem;margin:30px 0 16px}
+.bead-subhead:first-of-type{margin-top:0}
+.bead-shape{flex:none;width:44px;height:44px;display:grid;place-items:center;font-size:2rem;line-height:1;
+  filter:drop-shadow(1px 2px 0 rgba(67,40,60,.18))}
+.gold-showcase{display:flex;align-items:center;justify-content:center;gap:18px;max-width:460px;
+  margin:18px auto 0;background:linear-gradient(120deg,#FFFBEF,#FFE9A8);border:4px solid #B8860B;
+  border-radius:26px;padding:20px 28px;box-shadow:6px 6px 0 #B8860B}
+.gold-showcase .bead{width:54px;height:54px}
+.gold-showcase b{font-family:'Baloo 2';font-weight:800;color:#8a5a00;font-size:1.3rem;display:block}
+.gold-showcase .sub{font-size:.9rem;color:#9a7f12;font-weight:600}
+.bead-note{text-align:center;margin-top:34px;font-weight:600;color:var(--line);
+  background:var(--milk);border:3px dashed var(--line);border-radius:24px;
+  padding:16px 22px;max-width:560px;margin-left:auto;margin-right:auto}
+
+/* ---------- VIDEO GALLERY ---------- */
+.feed-head{display:flex;flex-direction:column;align-items:center;gap:18px;margin-bottom:40px}
+.feed-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+.clip{
+  position:relative;aspect-ratio:9/16;border:4px solid var(--line);border-radius:26px;
+  overflow:hidden;cursor:pointer;box-shadow:5px 5px 0 var(--line);
+  transition:transform .15s,box-shadow .15s;display:grid;place-items:center;
+}
+.clip:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:8px 8px 0 var(--line)}
+.clip .miniplay{width:54px;height:54px;background:rgba(255,255,255,.9);border:3px solid var(--line);
+  border-radius:50%;display:grid;place-items:center;z-index:2}
+.clip .miniplay::after{content:"";border-left:17px solid var(--berry);border-top:11px solid transparent;
+  border-bottom:11px solid transparent;margin-left:5px}
+.clip .views{position:absolute;bottom:12px;left:12px;color:#fff;font-family:'Baloo 2';font-weight:700;
+  z-index:2;text-shadow:1px 1px 0 var(--line);font-size:.9rem}
+.clip .tt{position:absolute;top:12px;right:12px;background:var(--line);color:#fff;z-index:2;
+  font-family:'Baloo 2';font-weight:700;font-size:.7rem;padding:3px 9px;border-radius:14px}
+.inside-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px}
+.chip{
+  background:var(--milk);border:3px solid var(--line);border-radius:22px;
+  padding:22px 12px;text-align:center;box-shadow:4px 4px 0 var(--line);
+  transition:transform .14s;
+}
+.chip:hover{transform:rotate(-3deg) scale(1.04)}
+.chip .e{font-size:2.6rem;display:block;margin-bottom:8px}
+.chip b{font-family:'Baloo 2';font-weight:700;color:var(--deepberry)}
+
+/* ---------- STEPS ---------- */
+.steps{background:var(--sky);border-top:3px solid var(--line);border-bottom:3px solid var(--line)}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.step{
+  background:var(--milk);border:4px solid var(--line);border-radius:26px;
+  padding:30px 22px;text-align:center;box-shadow:6px 6px 0 var(--line);position:relative;
+}
+.step .num{
+  position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  width:46px;height:46px;background:var(--butter);border:3px solid var(--line);
+  border-radius:50%;display:grid;place-items:center;
+  font-family:'Mochiy Pop One';font-size:1.3rem;color:var(--line);
+}
+.step .e{font-size:3rem;margin:10px 0 12px;display:block}
+.step h3{font-size:1.3rem;color:var(--deepberry);margin-bottom:8px}
+.step p{font-weight:500;font-size:.93rem}
+
+/* ---------- REVIEWS ---------- */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.review{
+  background:var(--milk);border:4px solid var(--line);border-radius:26px;padding:24px;
+  box-shadow:6px 6px 0 var(--line);
+}
+.review:nth-child(2){transform:rotate(-1.5deg)}
+.review:nth-child(3){transform:rotate(1.5deg)}
+.review .stars{color:var(--butter);font-size:1.1rem;letter-spacing:2px;-webkit-text-stroke:1px var(--line)}
+.review p{font-weight:500;margin:12px 0;font-size:.98rem}
+.review .who{display:flex;align-items:center;gap:10px}
+.review .av{width:42px;height:42px;border-radius:50%;border:3px solid var(--line);display:grid;place-items:center;font-size:1.4rem}
+.review .who b{font-family:'Baloo 2';color:var(--deepberry)}
+.review .who span{display:block;font-size:.8rem;color:#a98aa0}
+
+/* ---------- NEWSLETTER ---------- */
+.news{
+  max-width:680px;margin:0 auto;text-align:center;
+  background:linear-gradient(160deg,var(--strawberry),var(--berry));
+  border:4px solid var(--line);border-radius:34px;padding:46px 30px;
+  box-shadow:8px 8px 0 var(--line);color:#fff;
+}
+.news h2{color:#fff;text-shadow:3px 3px 0 var(--deepberry)}
+.news p{font-weight:500;margin:10px 0 24px}
+.news .form{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.news input{
+  font-family:'Zen Maru Gothic';font-size:1rem;padding:14px 20px;border:3px solid var(--line);
+  border-radius:30px;min-width:240px;color:var(--ink);box-shadow:4px 4px 0 var(--line);
+}
+.news input:focus{outline:none;box-shadow:4px 4px 0 var(--butter)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--milk);border-top:3px solid var(--line);padding:48px 22px 28px;text-align:center}
+.foot-logo{font-family:'Baloo 2';font-weight:800;font-size:1.6rem;color:var(--deepberry)}
+.foot-links{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.foot-links a{color:var(--ink);text-decoration:none;font-weight:700;transition:color .2s}
+.foot-links a:hover{color:var(--berry)}
+.foot-copy{font-size:.85rem;color:#a98aa0;margin-top:14px}
+
+/* ---------- TOAST ---------- */
+#toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(140%);
+  background:var(--line);color:#fff;font-family:'Baloo 2';font-weight:700;
+  padding:14px 26px;border-radius:30px;border:3px solid var(--butter);z-index:200;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);transition:transform .35s cubic-bezier(.2,1.4,.4,1);
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:150}
+
+/* ---------- occasion selector ---------- */
+.occasion-box{max-width:760px;margin:0 auto 14px;background:var(--milk);border:4px solid var(--line);
+  border-radius:28px;padding:26px 24px;box-shadow:6px 6px 0 var(--line);text-align:center}
+.occasion-box h3{font-size:1.4rem;color:var(--deepberry);margin-bottom:4px}
+.occasion-box p{font-weight:500;font-size:.92rem;margin-bottom:18px}
+.occasion-pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.pill{font-family:'Baloo 2';font-weight:700;font-size:.95rem;cursor:pointer;
+  background:var(--cream);border:3px solid var(--line);border-radius:30px;padding:10px 18px;color:var(--line);
+  box-shadow:3px 3px 0 var(--line);transition:transform .1s,box-shadow .1s,background .15s}
+.pill:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--line)}
+.pill.active{background:var(--strawberry);color:#fff}
+.occasion-result{margin-top:16px;font-family:'Baloo 2';font-weight:700;color:var(--berry);min-height:1.4em}
+
+/* personalizace */
+.person-wrap{margin-top:18px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.person-wrap label{font-family:'Baloo 2';font-weight:700;color:var(--deepberry);font-size:.95rem}
+.person-input{font-family:'Zen Maru Gothic';font-size:1rem;padding:11px 18px;border:3px solid var(--line);
+  border-radius:26px;width:min(360px,90%);color:var(--ink);box-shadow:3px 3px 0 var(--line)}
+.person-input:focus{outline:none;box-shadow:3px 3px 0 var(--butter)}
+
+/* zlatá stuha (šance na gold) */
+.gold-stuha{display:inline-block;position:relative;margin:0 auto 12px;
+  background:linear-gradient(120deg,#FFD96B,#FFC93C);color:#5a3e00;
+  font-family:'Baloo 2';font-weight:800;font-size:.82rem;padding:5px 16px;
+  border:2px solid #B8860B;border-radius:6px}
+.gold-stuha::before,.gold-stuha::after{content:"";position:absolute;top:50%;width:9px;height:120%;
+  transform:translateY(-50%);background:#E8A100}
+.gold-stuha::before{left:-9px;clip-path:polygon(0 0,100% 25%,100% 75%,0 100%)}
+.gold-stuha::after{right:-9px;clip-path:polygon(100% 0,0 25%,0 75%,100% 100%)}
+
+/* box měsíce banner */
+.month-banner{background:linear-gradient(120deg,var(--lav),var(--sky));
+  border-bottom:3px solid var(--line);padding:38px 22px}
+.month-card{max-width:880px;margin:0 auto;background:var(--milk);border:4px solid var(--line);
+  border-radius:30px;box-shadow:8px 8px 0 var(--line);display:flex;align-items:center;gap:26px;
+  padding:24px 30px;flex-wrap:wrap;justify-content:center}
+.mb-badge{flex:none;width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(150deg,var(--strawberry),var(--lav));border:4px solid var(--line);
+  display:grid;place-items:center;font-size:2.7rem;box-shadow:4px 4px 0 var(--line)}
+.mb-info{flex:1;min-width:230px;text-align:left}
+.month-tag{display:inline-block;background:var(--berry);color:#fff;font-family:'Mochiy Pop One';
+  font-size:.68rem;padding:4px 13px;border-radius:16px;border:2px solid var(--line);margin-bottom:8px}
+.mb-info h3{font-family:'Baloo 2';font-weight:800;color:var(--line);font-size:1.55rem;line-height:1.05;margin-bottom:6px}
+.mb-info h3 span{color:var(--deepberry)}
+.mb-info p{font-weight:500;font-size:.9rem;color:var(--ink);max-width:420px}
+.mb-buy{flex:none;display:flex;flex-direction:column;align-items:center;gap:10px}
+.month-price{font-family:'Baloo 2';font-weight:800;color:var(--deepberry);font-size:1.7rem;white-space:nowrap}
+.month-price s{font-size:.9rem;color:#a98aa0;font-weight:600;margin-left:4px}
+.month-btn{font-family:'Baloo 2';font-weight:800;font-size:1.05rem;cursor:pointer;background:var(--butter);
+  border:3px solid var(--line);border-radius:30px;padding:13px 28px;color:var(--line);
+  box-shadow:4px 4px 0 var(--line);transition:transform .1s,box-shadow .1s}
+.month-btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--line)}
+.month-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--line)}
+@media(max-width:640px){.mb-info{text-align:center;min-width:0}.mb-info p{margin:0 auto}}
+
+@media(max-width:680px){
+  .navlinks{display:none}
+  .hero h1{text-shadow:3px 3px 0 #fff,5px 5px 0 var(--strawberry)}
+}
+</style>
+
+<!-- ===================== NAV ===================== -->
+<nav>
+  <a class="logo" href="#top">
+    <svg class="blob" viewBox="0 0 100 100"><g stroke="#43283C" stroke-width="5">
+      <path fill="#FFD96B" d="M50 8C72 8 88 26 88 50s-16 42-38 42S12 74 12 50 28 8 50 8z"/>
+      <circle cx="38" cy="50" r="4.5" fill="#43283C" stroke="none"/>
+      <circle cx="62" cy="50" r="4.5" fill="#43283C" stroke="none"/>
+      <path fill="none" d="M42 62q8 7 16 0"/>
+      <circle cx="30" cy="60" r="5" fill="#FF7BAC" stroke="none" opacity=".7"/>
+      <circle cx="70" cy="60" r="5" fill="#FF7BAC" stroke="none" opacity=".7"/>
+    </g></svg>
+    <span><b>Mochi&nbsp;Box</b><small>もこもこ KAWAII</small></span>
+  </a>
+  <div class="navlinks">
+    <a href="#boxmesice">Box měsíce</a>
+    <a href="#boxy">Boxy</a>
+    <a href="#gacha">Vyzkoušej</a>
+    <a href="#uvnitr">Co je uvnitř</a>
+    <a href="#baleni">Jak balíme</a>
+    <a href="#recenze">Recenze</a>
+  </div>
+  <button class="cart-btn" onclick="toast('🛒 Tvůj košík je připravený!')">
+    Košík <span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <!-- floating doodles -->
+  <svg class="doodle d1" viewBox="0 0 100 100"><path d="M50 88C20 64 8 46 8 30 8 16 18 8 30 8c10 0 16 6 20 12 4-6 10-12 20-12 12 0 22 8 22 22 0 16-12 34-42 58z" fill="#FF7BAC" stroke="#43283C" stroke-width="5"/></svg>
+  <svg class="doodle d2" viewBox="0 0 100 100"><path d="M50 6l11 26 28 2-21 19 6 28-24-15-24 15 6-28L11 34l28-2z" fill="#FFD96B" stroke="#43283C" stroke-width="5" stroke-linejoin="round"/></svg>
+  <svg class="doodle d3" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#9EE6C4" stroke="#43283C" stroke-width="5"/><circle cx="40" cy="45" r="4" fill="#43283C"/><circle cx="60" cy="45" r="4" fill="#43283C"/><path d="M40 60q10 8 20 0" fill="none" stroke="#43283C" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="doodle d4" viewBox="0 0 100 100"><path d="M50 14c20 0 30 16 30 30 0 18-14 30-30 42C34 74 20 62 20 44c0-14 10-30 30-30z" fill="#C9B6F7" stroke="#43283C" stroke-width="5"/></svg>
+  <svg class="doodle d5" viewBox="0 0 100 100"><path d="M50 8l10 30 32 0-26 19 10 31-26-19-26 19 10-31L8 38l32 0z" fill="#8FD7F4" stroke="#43283C" stroke-width="5" stroke-linejoin="round"/></svg>
+  <svg class="doodle d6" viewBox="0 0 100 100"><circle cx="50" cy="55" r="35" fill="#FFB48F" stroke="#43283C" stroke-width="5"/><path d="M30 30l40 0M50 18l0 18" stroke="#43283C" stroke-width="5" stroke-linecap="round"/></svg>
+
+  <span class="eyebrow">✦ Nová zásilka právě dorazila ✦</span>
+  <h1>Otevři kouzlo<br>v každé <span class="wiggle">krabičce</span>!</h1>
+  <p class="lead">Ručně skládané kawaii mystery boxy plné roztomilých plyšáků, samolepek, papírnictví a japonských sladkostí. Nikdy nevíš, co tě uvnitř čeká — a právě to je ta zábava! 💕</p>
+  <div class="hero-cta">
+    <a href="#boxy" class="btn btn-pink">✦ Vybrat svůj box</a>
+    <a href="#gacha" class="btn btn-cream">🎁 Zkusit otevřít zdarma</a>
+  </div>
+
+  <svg class="mascot" viewBox="0 0 200 200">
+    <g stroke="#43283C" stroke-width="5">
+      <ellipse cx="100" cy="110" rx="74" ry="68" fill="#FFF0F6"/>
+      <circle cx="74" cy="104" r="7" fill="#43283C" stroke="none"/>
+      <circle cx="126" cy="104" r="7" fill="#43283C" stroke="none"/>
+      <circle cx="62" cy="122" r="9" fill="#FF7BAC" stroke="none" opacity=".75"/>
+      <circle cx="138" cy="122" r="9" fill="#FF7BAC" stroke="none" opacity=".75"/>
+      <path d="M86 124q14 12 28 0" fill="none" stroke-linecap="round"/>
+      <path d="M70 52c4-14 22-14 26 0" fill="none" stroke-linecap="round"/>
+      <path d="M104 52c4-14 22-14 26 0" fill="none" stroke-linecap="round"/>
+    </g>
+  </svg>
+</header>
+
+<!-- ribbon -->
+<div class="ribbon"><div class="ribbon-track" id="ribbon">
+  <span>🚚 <b>Doprava zdarma</b> nad 800 Kč</span><span>✦</span>
+  <span>🎀 <b>100% kawaii</b> garance</span><span>✦</span>
+  <span>🎀 <b>Dárek zdarma</b> ke každé objednávce</span><span>✦</span>
+  <span>♻️ Recyklovatelné <b>balení</b></span><span>✦</span>
+  <span>💝 Skvělý <b>dárek</b></span><span>✦</span>
+</div></div>
+
+<!-- box měsíce -->
+<div class="month-banner" id="boxmesice">
+  <div class="month-card">
+    <div class="mb-badge">🐱</div>
+    <div class="mb-info">
+      <span class="month-tag">⏳ JEN V ČERVENCI · LIMITKA</span>
+      <h3>Box měsíce: <span>Kitty Love 🎀</span></h3>
+      <p>Kočičkami a srdíčky laděná limitka. Mění se každý měsíc — samostatný box, kupuješ rovnou bez výběru velikosti.</p>
+    </div>
+    <div class="mb-buy">
+      <span class="month-price">499 Kč <s>699 Kč</s></span>
+      <button class="month-btn" onclick="addToCart('Box měsíce: Kitty Love',499)">Chci ho! 🐱</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GACHA ===================== -->
+<section class="gacha-section section-pad" id="gacha">
+  <div class="wrap">
+    <div class="sec-title"><span class="jp">ガチャ・ガチャ</span><h2>Vyzkoušej si gachu!</h2></div>
+    <p class="sec-sub">Klepni na krabičku a podívej se, co by z tvého mystery boxu mohlo vypadnout. Každé otevření je překvapení! 🎲</p>
+
+    <div class="gacha">
+      <span class="tag">🎁 Mystery Box · zkušební režim</span>
+      <div class="box-stage">
+        <svg id="mysteryBox" viewBox="0 0 200 200">
+          <g stroke="#43283C" stroke-width="5" stroke-linejoin="round">
+            <path d="M30 78h140v98a8 8 0 01-8 8H38a8 8 0 01-8-8z" fill="#FF7BAC"/>
+            <rect x="22" y="58" width="156" height="28" rx="6" fill="#FFB6D4"/>
+            <rect x="88" y="58" width="24" height="128" fill="#FFD96B"/>
+            <path d="M100 58c-6-22-34-30-40-14-5 13 16 16 40 14z" fill="#C9B6F7"/>
+            <path d="M100 58c6-22 34-30 40-14 5 13-16 16-40 14z" fill="#9EE6C4"/>
+            <circle cx="100" cy="52" r="7" fill="#fff"/>
+          </g>
+        </svg>
+      </div>
+      <div class="reveal" id="reveal">
+        <span class="rarity" id="rarity">Běžné</span>
+        <div class="item-emoji" id="itemEmoji">🧸</div>
+        <div class="item-name" id="itemName">Plyšový medvídek</div>
+      </div>
+      <p class="hint" id="gachaHint">Klepni na krabičku ↑</p>
+      <button class="btn btn-pink" id="gachaBtn" onclick="openGacha()">✦ Zatřást krabičkou</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BOXY / PRODUCTS ===================== -->
+<section class="section-pad" id="boxy">
+  <div class="wrap">
+    <div class="sec-title"><span class="jp">ミステリーボックス</span><h2>Vyber si svůj box</h2></div>
+    <p class="sec-sub">Nejdřív <b>velikost</b> (kolik toho dostaneš), pak <b>příležitost</b> (jaká nálada). Korálky a systém jsou pořád stejné. 🎀</p>
+
+    <div class="occasion-box">
+      <h3>Pro jakou příležitost? 💌</h3>
+      <p>Vyber náladu — obsah a vzkaz v balení doladíme přesně na míru.</p>
+      <div class="occasion-pills" id="occasionPills"></div>
+      <div class="occasion-result" id="occasionResult">Zatím nic nevybráno — klikni výš ✨</div>
+      <div class="person-wrap">
+        <label for="personName">Pro koho to je? Napiš jméno na kartičku 💌</label>
+        <input class="person-input" id="personName" type="text" maxlength="40" placeholder="např. Pro Aničku ♡ (nepovinné)">
+      </div>
+    </div>
+
+    <p class="sec-sub" style="margin:30px auto 24px">A teď velikost:</p>
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== INSIDE ===================== -->
+<section class="section-pad" id="uvnitr" style="background:var(--lav);border-top:3px solid var(--line);border-bottom:3px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-title"><span class="jp">なかみ</span><h2>Co může být uvnitř?</h2></div>
+    <p class="sec-sub">Každý box je namíchaný z těchto kategorií — poměr je vždy překvapení! ✨</p>
+    <div class="inside-grid">
+      <div class="chip"><span class="e">🧸</span><b>Mini plyšáci</b></div>
+      <div class="chip"><span class="e">✏️</span><b>Propisky</b></div>
+      <div class="chip"><span class="e">📓</span><b>Deníčky</b></div>
+      <div class="chip"><span class="e">🔑</span><b>Klíčenky</b></div>
+      <div class="chip"><span class="e">📎</span><b>Sponky</b></div>
+      <div class="chip"><span class="e">🔖</span><b>Záložky</b></div>
+      <div class="chip"><span class="e">💄</span><b>Lesky na rty</b></div>
+      <div class="chip"><span class="e">🩹</span><b>Gumy</b></div>
+      <div class="chip"><span class="e">🪙</span><b>Placky</b></div>
+      <div class="chip"><span class="e">🏷️</span><b>Stickery</b></div>
+      <div class="chip"><span class="e">🍬</span><b>Sladkosti</b></div>
+      <div class="chip"><span class="e">✨</span><b>+ bonusy</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PACKING / VIDEO ===================== -->
+<section class="packing section-pad" id="baleni">
+  <div class="wrap">
+    <div class="pack-flex">
+      <div class="pack-text">
+        <span class="jp">こんぽう・ライブ</span>
+        <h2>Žádné triky. Jen lžička, korálky a náhoda.</h2>
+        <p>Každý box skládáme naživo před kamerou. Lžičkou hrábneme do korálků, přebytek proseješ sítkem — a to, co zůstane, určuje, co do tvého boxu zabalíme. Vidíš to celé, od první lžíce až po zalepení. 🥄</p>
+        <ul class="pack-points">
+          <li><span class="tick">✓</span><span><b>100 % férové.</b> Náhoda probíhá před tvýma očima, nic není nastrčené.</span></li>
+          <li><span class="tick">✓</span><span><b>Každý korálek = kategorie.</b> Podle barev skládáme tvoji sadu (klíč najdeš níž).</span></li>
+          <li><span class="tick">✓</span><span><b>Ručně, s láskou.</b> Žádný stroj — jen my, lžička a hromada roztomilostí.</span></li>
+        </ul>
+      </div>
+      <div class="phone" onclick="toast('🎬 Sem přijde tvoje TikTok / Reels video!')">
+        <div class="notch"></div>
+        <div class="screen">
+          <div class="hands">🙌</div>
+          <div class="play"></div>
+          <div class="vidcap">🥄 Skládám box #247 ✦ poslouchej ten zvuk korálků</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BEAD KEY ===================== -->
+<section class="bead-key section-pad" id="klic">
+  <div class="wrap">
+    <div class="sec-title"><span class="jp">ビーズの かぎ</span><h2>Korálkový klíč 🔮</h2></div>
+    <p class="sec-sub">Korálky mají <b>tři úrovně hodnoty</b>: kulaté barevné = základní věci, <b>tvarované = hodnotnější dárky</b>, zlatý = vzácný jackpot. U videa hned poznáš, co padlo! 🎲</p>
+    <h3 class="bead-subhead">🔵 Základní · kulaté barevné korálky</h3>
+    <div class="bead-grid" id="beadGrid"></div>
+    <h3 class="bead-subhead">🎁 Střední vrstva · tvarované korálky (hodnotnější dárky)</h3>
+    <div class="bead-grid" id="beadGridShaped"></div>
+    <h3 class="bead-subhead">🏆 Top · vzácný zlatý korálek</h3>
+    <div class="gold-showcase">
+      <span class="bead gold"></span>
+      <div><b>✨ Vzácný bonus</b><span class="sub">zlatý korálek · prémiový dárek zdarma</span></div>
+    </div>
+    <p class="bead-note">Zlatý korálek se objeví jen výjimečně (cca 1 box z 20–30). Když uslyšíš to cinknutí zlata, je to výhra — prémiový dárek navíc! 🏆</p>
+  </div>
+</section>
+
+<!-- ===================== VIDEO GALLERY ===================== -->
+<section class="section-pad" id="videa">
+  <div class="wrap">
+    <div class="feed-head">
+      <div class="sec-title" style="margin:0"><span class="jp">@mochibox</span><h2>Sleduj, jak balíme ✂️</h2></div>
+      <a href="#" class="btn btn-pink" onclick="toast('📱 Propoj sem svůj TikTok / Instagram profil')">＋ Sledovat @mochibox</a>
+    </div>
+    <div class="feed-grid" id="feedGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== STEPS ===================== -->
+<section class="steps section-pad" id="jak">
+  <div class="wrap">
+    <div class="sec-title"><span class="jp">かんたん 3ステップ</span><h2>Jak to funguje</h2></div>
+    <p class="sec-sub">Tři krůčky k tvému balíčku štěstí. 📦</p>
+    <div class="steps-grid">
+      <div class="step"><span class="num">1</span><span class="e">🛍️</span><h3>Vyber box</h3><p>Zvol velikost a téma podle nálady i rozpočtu.</p></div>
+      <div class="step"><span class="num">2</span><span class="e">✨</span><h3>My namícháme</h3><p>Ručně skládáme překvapení tak, aby ti udělalo radost.</p></div>
+      <div class="step"><span class="num">3</span><span class="e">📬</span><h3>Otevři &amp; zaraduj se</h3><p>Balíček dorazí a tebe čeká kawaii nadílka!</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REVIEWS ===================== -->
+<section class="section-pad" id="recenze">
+  <div class="wrap">
+    <div class="sec-title"><span class="jp">レビュー</span><h2>Co říkají naši fanoušci</h2></div>
+    <p class="sec-sub">Přes 12 000 spokojených sběratelů roztomilostí. 💌</p>
+    <div class="reviews-grid">
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>„Nejlepší překvapení v poště! Plyšák uvnitř je teď můj nový nejlepší kamarád. Objednávám další!"</p>
+        <div class="who"><span class="av" style="background:#FFD96B">🐰</span><div><b>Terka K.</b><span>Praha</span></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>„Koupila jsem Mega Box jako dárek a měla obří úspěch. Balení samo o sobě je tak roztomilé, že jsem ho nechtěla otevřít!"</p>
+        <div class="who"><span class="av" style="background:#9EE6C4">🐱</span><div><b>Lucie M.</b><span>Brno</span></div></div>
+      </div>
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <p>„Samolepky a papírnictví jsou naprosto boží. Konečně mystery box, kde fakt všechno použiju. 10/10 kawaii!"</p>
+        <div class="who"><span class="av" style="background:#C9B6F7">🐻</span><div><b>Adam V.</b><span>Ostrava</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NEWSLETTER ===================== -->
+<section class="section-pad" style="background:var(--milk);border-top:3px solid var(--line)">
+  <div class="wrap">
+    <div class="news">
+      <h2>Připoj se k Mochi klubu! 🎀</h2>
+      <p>Sleva 10 % na první box + první vědět o nových zásilkách.</p>
+      <div class="form">
+        <input type="email" id="newsEmail" placeholder="tvuj@email.cz" aria-label="email">
+        <button class="btn btn-cream" onclick="subscribe()">Chci slevu ✦</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="foot-logo">もこもこ Mochi Box</div>
+  <div class="foot-links">
+    <a href="#boxy">Boxy</a><a href="#jak">Jak to funguje</a>
+    <a href="#recenze">Recenze</a><a href="#" onclick="toast('💌 Napiš nám na ahoj@mochibox.cz')">Kontakt</a>
+    <a href="#" onclick="toast('🚚 Doručení 2–4 pracovní dny')">Doprava</a>
+  </div>
+  <p class="foot-copy">© 2026 Mochi Box · Vyrobeno s 💕 a spoustou cukru · Toto je ukázkový demo e-shop</p>
+</footer>
+
+<div id="toast"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+/* ---------- CART ---------- */
+let cart=0;
+function addToCart(name,price){
+  cart++;document.getElementById('cartCount').textContent=cart;
+  const occ=selectedOccasion?` · ${selectedOccasion}`:'';
+  const pn=document.getElementById('personName');
+  const forWho=(pn&&pn.value.trim())?` · ${pn.value.trim()}`:'';
+  toast('💝 Přidáno: '+name+occ+forWho+' ('+price+' Kč)');
+}
+
+/* ---------- TOAST ---------- */
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);
+}
+function subscribe(){
+  const e=document.getElementById('newsEmail').value;
+  if(e&&e.includes('@')){toast('🎉 Vítej v Mochi klubu! Slevový kód je na cestě.');document.getElementById('newsEmail').value='';}
+  else toast('📧 Zadej prosím platný e-mail');
+}
+
+/* ---------- PRODUCTS ---------- */
+const products=[
+  {emoji:'🍬',name:'Mini Box',desc:'Ochutnávka kawaii. 3–4 roztomilé překvapení.',price:299,old:null,badge:null,feat:false,lux:false,gold:0},
+  {emoji:'🎁',name:'Klasik Box',desc:'Náš bestseller. 6–8 ručně vybraných pokladů.',price:599,old:799,badge:'NEJ ✦',feat:false,lux:false,gold:3},
+  {emoji:'📦',name:'Mega Box',desc:'10–14 věcí včetně velkého plyšáka. Maximum radosti!',price:999,old:1299,badge:'HIT 🔥',feat:true,lux:false,gold:5},
+  {emoji:'💎',name:'Luxury Box',desc:'Vše z Megy + zaručený prémiový kousek, top šance na gold dárek a nejhezčí balení.',price:1499,old:null,badge:'LUXUS ✨',feat:false,lux:true,gold:12},
+];
+const grid=document.getElementById('productGrid');
+products.forEach(p=>{
+  const c=document.createElement('div');
+  c.className='card'+(p.feat?' feature':'')+(p.lux?' lux':'');
+  c.innerHTML=`
+    ${p.badge?`<span class="badge">${p.badge}</span>`:''}
+    <div class="pic">${p.emoji}</div>
+    <h3>${p.name}</h3>
+    ${p.gold>0?`<div class="gold-stuha">✨ Šance na gold: ${p.gold}%</div>`:''}
+    <p class="desc">${p.desc}</p>
+    <span class="price">${p.price} Kč ${p.old?`<s>${p.old} Kč</s>`:''}</span>
+    <button class="add">Přidat do košíku 🛒</button>`;
+  c.querySelector('.add').addEventListener('click',()=>addToCart(p.name,p.price));
+  grid.appendChild(c);
+});
+
+/* duplicate ribbon for seamless loop */
+const rb=document.getElementById('ribbon');rb.innerHTML+=rb.innerHTML;
+
+/* ---------- occasion selector ---------- */
+let selectedOccasion="";
+const occasions=[
+  {e:"💝",n:"Sobě"},{e:"💛",n:"Pro kámošku"},{e:"🌈",n:"Hlavu vzhůru"},
+  {e:"🎂",n:"Narozeniny"},{e:"♈",n:"Tvoje znamení"},{e:"💌",n:"Jen tak, myslím na tebe"},
+  {e:"🎓",n:"Gratulace / úspěch"},{e:"🤍",n:"Soustrast / útěcha"},{e:"💗",n:"Výročí / láska"},
+  {e:"🤒",n:"Brzy se uzdrav"},{e:"🙏",n:"Poděkování"},{e:"👶",n:"Pro novopečenou mámu"},
+  {e:"🎄",n:"Vánoce"},{e:"❤️",n:"Valentýn"},{e:"💐",n:"Den matek"}
+];
+const op=document.getElementById('occasionPills');
+occasions.forEach(o=>{
+  const b=document.createElement('button');b.className='pill';b.textContent=`${o.e} ${o.n}`;
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#occasionPills .pill').forEach(p=>p.classList.remove('active'));
+    b.classList.add('active');selectedOccasion=o.n;
+    document.getElementById('occasionResult').textContent=`Vybráno: ${o.e} ${o.n} — teď zvol velikost ↓`;
+  });
+  op.appendChild(b);
+});
+
+/* ---------- BEAD KEY (color -> category) ---------- */
+const beads=[
+  {c:'var(--strawberry)',e:'💄',name:'Lesky na rty',note:'růžový korálek'},
+  {c:'var(--lav)',      e:'🧸',name:'Mini plyšáci', note:'fialový korálek'},
+  {c:'var(--sky)',      e:'📓',name:'Deníčky',      note:'modrý korálek'},
+  {c:'var(--mint)',     e:'✏️',name:'Propisky',     note:'mátový korálek'},
+  {c:'var(--butter)',   e:'🏷️',name:'Stickery',     note:'žlutý korálek'},
+  {c:'var(--peach)',    e:'🔑',name:'Klíčenky',     note:'broskvový korálek'},
+  {c:'#FFF6E9',         e:'📎',name:'Sponky',       note:'krémový korálek'},
+  {c:'#5FC8C0',         e:'🔖',name:'Záložky',      note:'tyrkysový korálek'},
+  {c:'#B86FD9',         e:'🪙',name:'Placky',       note:'švestkový korálek'},
+  {c:'#A9744F',         e:'👜',name:'Mini taška',    note:'hnědý korálek'},
+  {c:'#FF8A3D',         e:'🐙',name:'Squishy',       note:'oranžový korálek'},
+  {c:'#D6336C',         e:'📿',name:'Náramek',       note:'sytě růžový korálek'},
+  {c:'#6C5CE7',         e:'💎',name:'Náušnice',      note:'indigový korálek'},
+  {c:'#2B2B2B',         e:'💍',name:'Prstýnek',      note:'černý korálek'},
+  {c:'#9AA7B0',         e:'📏',name:'Pravítko',      note:'ocelový korálek'},
+  {c:'#FFC2D1',         e:'📝',name:'Memo bloček',   note:'pudrový korálek'},
+  {c:'#8B4FA8',         e:'📔',name:'Mini zápisník', note:'ametystový korálek'},
+  {c:'#C6FF00',         e:'🖍️',name:'Zvýrazňovač',   note:'neonový korálek'},
+  {c:'#5AC8FA',         e:'🎨',name:'Washi páska',   note:'blankytný korálek'},
+  {c:'gem',             e:'🩹',name:'Gumy',          note:'třpytivý korálek s kamínkama'},
+];
+const bg=document.getElementById('beadGrid');
+beads.forEach(b=>{
+  const special=(b.c==='holo'||b.c==='gold'||b.c==='gem');
+  const style=special?'':`style="background:${b.c}"`;
+  const cls=special?(' '+b.c):'';
+  const row=document.createElement('div');row.className='bead-row';
+  row.innerHTML=`<span class="bead${cls}" ${style}></span>
+    <span class="lbl"><b>${b.e} ${b.name}</b><span>${b.note}</span></span>`;
+  bg.appendChild(row);
+});
+
+/* ---------- STŘEDNÍ VRSTVA: tvarované korálky ---------- */
+const beadsShaped=[
+  {s:'🦋',e:'🎀',name:'Čelenka',      note:'tvar motýl'},
+  {s:'🌸',e:'🧴',name:'Voňavka',      note:'tvar kytka'},
+  {s:'💗',e:'🪞',name:'Zrcátko',      note:'tvar srdce'},
+  {s:'⭐',e:'🧦',name:'Ponožky',      note:'tvar hvězda'},
+  {s:'🌙',e:'😴',name:'Maska na spaní',note:'tvar měsíc'},
+  {s:'🐚',e:'🪮',name:'Hřeben',       note:'tvar mušle'},
+  {s:'🍀',e:'🧖',name:'Maska na pleť', note:'tvar čtyřlístek'},
+  {s:'🍒',e:'🗜️',name:'Skřipec',      note:'tvar třešně'},
+  {s:'🐻',e:'🔦',name:'Baterka',      note:'tvar méďa'},
+  {s:'🌷',e:'👛',name:'Peněženka',    note:'tvar tulipán'},
+];
+const bgs=document.getElementById('beadGridShaped');
+beadsShaped.forEach(b=>{
+  const row=document.createElement('div');row.className='bead-row';
+  row.innerHTML=`<span class="bead-shape">${b.s}</span>
+    <span class="lbl"><b>${b.e} ${b.name}</b><span>${b.note}</span></span>`;
+  bgs.appendChild(row);
+});
+
+/* ---------- VIDEO FEED (placeholders) ---------- */
+const clips=[
+  {g:'linear-gradient(160deg,#FF7BAC,#C9B6F7)',v:'2,4 mil',t:'TikTok'},
+  {g:'linear-gradient(160deg,#8FD7F4,#9EE6C4)',v:'890 tis',t:'Reels'},
+  {g:'linear-gradient(160deg,#FFD96B,#FFB48F)',v:'1,1 mil',t:'TikTok'},
+  {g:'linear-gradient(160deg,#C9B6F7,#FF7BAC)',v:'640 tis',t:'YT Shorts'},
+];
+const fg=document.getElementById('feedGrid');
+clips.forEach(c=>{
+  const d=document.createElement('div');d.className='clip';
+  d.style.background=c.g;
+  d.innerHTML=`<span class="tt">▶ ${c.t}</span><span class="miniplay"></span><span class="views">♥ ${c.v}</span>`;
+  d.addEventListener('click',()=>toast('🎬 Sem napoj konkrétní video z profilu'));
+  fg.appendChild(d);
+});
+
+/* ---------- GACHA ---------- */
+const loot=[
+  {e:'🧸',n:'Plyšový medvídek',r:'rare'},
+  {e:'🐰',n:'Plyšový králíček',r:'rare'},
+  {e:'🏷️',n:'Sada samolepek',r:'common'},
+  {e:'✏️',n:'Pastelové pero',r:'common'},
+  {e:'🍡',n:'Mochi dango',r:'common'},
+  {e:'🍓',n:'Jahodový pocky',r:'common'},
+  {e:'🔑',n:'Kawaii klíčenka',r:'common'},
+  {e:'🎀',n:'Saténová mašle',r:'common'},
+  {e:'🐱',n:'Plyšová kočička',r:'rare'},
+  {e:'🦄',n:'Zlatý jednorožec',r:'super'},
+  {e:'⭐',n:'Holografický odznáček',r:'rare'},
+  {e:'🌈',n:'Duhový mega plyšák',r:'super'},
+  {e:'🧁',n:'Cupcake gumovátko',r:'common'},
+  {e:'👑',n:'Sběratelská korunka',r:'super'},
+];
+const rLabel={common:['Běžné','r-common'],rare:['Vzácné ✦','r-rare'],super:['SUPER VZÁCNÉ! ✨','r-super']};
+let spinning=false;
+function openGacha(){
+  if(spinning)return;spinning=true;
+  const box=document.getElementById('mysteryBox');
+  const reveal=document.getElementById('reveal');
+  const btn=document.getElementById('gachaBtn');
+  const hint=document.getElementById('gachaHint');
+  reveal.classList.remove('show');
+  box.style.display='block';box.classList.add('box-shake');
+  hint.textContent='Třesu, třesu... 🎲';btn.textContent='⏳ Třesu...';
+  setTimeout(()=>{
+    box.classList.remove('box-shake');box.style.display='none';
+    // weighted pick: super rarer
+    const r=Math.random();let pool;
+    if(r<0.10)pool=loot.filter(l=>l.r==='super');
+    else if(r<0.40)pool=loot.filter(l=>l.r==='rare');
+    else pool=loot.filter(l=>l.r==='common');
+    const item=pool[Math.floor(Math.random()*pool.length)];
+    document.getElementById('itemEmoji').textContent=item.e;
+    document.getElementById('itemName').textContent=item.n;
+    const rar=document.getElementById('rarity');
+    rar.textContent=rLabel[item.r][0];rar.className='rarity '+rLabel[item.r][1];
+    reveal.classList.add('show');
+    confettiBurst(item.r==='super'?160:70);
+    hint.textContent=item.r==='super'?'JACKPOT! 🎉 Tohle je extrémně vzácné!':'Hurá! Co dál? 💕';
+    btn.textContent='✦ Zkusit znovu';spinning=false;
+  },1300);
+}
+
+/* ---------- CONFETTI ---------- */
+const cv=document.getElementById('confetti'),ctx=cv.getContext('2d');
+let parts=[];
+function resize(){cv.width=innerWidth;cv.height=innerHeight}
+resize();addEventListener('resize',resize);
+const colors=['#FF7BAC','#FFD96B','#9EE6C4','#8FD7F4','#C9B6F7','#FFB48F'];
+function confettiBurst(n){
+  for(let i=0;i<n;i++){
+    parts.push({
+      x:innerWidth/2,y:innerHeight*0.42,
+      vx:(Math.random()-0.5)*14,vy:Math.random()*-13-4,
+      g:0.32+Math.random()*0.2,
+      s:7+Math.random()*8,rot:Math.random()*6,vr:(Math.random()-0.5)*0.4,
+      c:colors[Math.floor(Math.random()*colors.length)],life:120,
+      shape:Math.random()<0.5?'rect':'circ'
+    });
+  }
+  if(!raf)loop();
+}
+let raf=null;
+function loop(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{
+    p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life--;
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+    ctx.fillStyle=p.c;ctx.strokeStyle='#43283C';ctx.lineWidth=1.5;
+    if(p.shape==='rect'){ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);ctx.strokeRect(-p.s/2,-p.s/2,p.s,p.s);}
+    else{ctx.beginPath();ctx.arc(0,0,p.s/2,0,7);ctx.fill();ctx.stroke();}
+    ctx.restore();
+  });
+  parts=parts.filter(p=>p.life>0&&p.y<cv.height+40);
+  if(parts.length)raf=requestAnimationFrame(loop);else{raf=null;ctx.clearRect(0,0,cv.width,cv.height);}
+}
+
+/* click the box itself */
+document.getElementById('mysteryBox').addEventListener('click',openGacha);
+</script>

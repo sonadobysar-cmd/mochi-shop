@@ -4,10 +4,13 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import LogoMark from "@/components/LogoMark";
 import {
-  beads,
+  beadsRound,
+  beadsShaped,
   clips,
   insideChips,
   loot,
+  monthBox,
+  occasions,
   products,
   rLabel,
 } from "@/lib/mochibox-data";
@@ -47,7 +50,7 @@ function RibbonSpans() {
       </span>
       <span>✦</span>
       <span>
-        🇯🇵 Pravé <b>japonské</b> dobroty
+        🎀 <b>Dárek zdarma</b> ke každé objednávce
       </span>
       <span>✦</span>
       <span>
@@ -73,6 +76,11 @@ export default function MochiBoxPage() {
   const [revealVisible, setRevealVisible] = useState(false);
   const [gachaHint, setGachaHint] = useState("Klepni na krabičku ↑");
   const [gachaBtnText, setGachaBtnText] = useState("✦ Zatřást krabičkou");
+  const [selectedOccasion, setSelectedOccasion] = useState("");
+  const [occasionResult, setOccasionResult] = useState(
+    "Zatím nic nevybráno — klikni výš ✨",
+  );
+  const [personName, setPersonName] = useState("");
   const [itemEmoji, setItemEmoji] = useState("🧸");
   const [itemName, setItemName] = useState("Plyšový medvídek");
   const [rarityText, setRarityText] = useState("Běžné");
@@ -174,9 +182,11 @@ export default function MochiBoxPage() {
   const addToCart = useCallback(
     (name: string, price: number) => {
       setCart((c) => c + 1);
-      toast(`💝 Přidáno: ${name} (${price} Kč)`);
+      const occ = selectedOccasion ? ` · ${selectedOccasion}` : "";
+      const forWho = personName.trim() ? ` · ${personName.trim()}` : "";
+      toast(`💝 Přidáno: ${name}${occ}${forWho} (${price} Kč)`);
     },
-    [toast],
+    [toast, selectedOccasion, personName],
   );
 
   const subscribe = useCallback(() => {
@@ -236,11 +246,11 @@ export default function MochiBoxPage() {
           </span>
         </a>
         <div className="navlinks">
+          <a href="#boxmesice">Box měsíce</a>
           <a href="#boxy">Boxy</a>
           <a href="#gacha">Vyzkoušej</a>
           <a href="#uvnitr">Co je uvnitř</a>
           <a href="#baleni">Jak balíme</a>
-          <a href="#jak">Jak to funguje</a>
           <a href="#recenze">Recenze</a>
         </div>
         <button
@@ -350,6 +360,31 @@ export default function MochiBoxPage() {
         </div>
       </div>
 
+      <div className="month-banner" id="boxmesice">
+        <div className="month-card">
+          <div className="mb-badge">{monthBox.emoji}</div>
+          <div className="mb-info">
+            <span className="month-tag">{monthBox.tag}</span>
+            <h3>
+              Box měsíce: <span>{monthBox.title}</span>
+            </h3>
+            <p>{monthBox.desc}</p>
+          </div>
+          <div className="mb-buy">
+            <span className="month-price">
+              {monthBox.price} Kč <s>{monthBox.old} Kč</s>
+            </span>
+            <button
+              type="button"
+              className="month-btn"
+              onClick={() => addToCart(monthBox.cartName, monthBox.price)}
+            >
+              Chci ho! 🐱
+            </button>
+          </div>
+        </div>
+      </div>
+
       <section className="gacha-section section-pad" id="gacha">
         <div className="wrap">
           <div className="sec-title">
@@ -430,28 +465,105 @@ export default function MochiBoxPage() {
             <h2>Vyber si svůj box</h2>
           </div>
           <p className="sec-sub">
-            Od malého ochutnávkového balíčku až po obří mega box. Každý je
-            nacpaný roztomilostí. 🎀
+            Nejdřív <b>velikost</b> (kolik toho dostaneš), pak{" "}
+            <b>příležitost</b> (jaká nálada). Korálky a systém jsou pořád stejné.
+            🎀
           </p>
-          <div className="grid" id="productGrid">
-            {products.map((p) => (
-              <div key={p.name} className={`card${p.feat ? " feature" : ""}`}>
-                {p.badge ? <span className="badge">{p.badge}</span> : null}
-                <div className="pic">{p.emoji}</div>
-                <h3>{p.name}</h3>
-                <p className="desc">{p.desc}</p>
-                <span className="price">
-                  {p.price} Kč {p.old ? <s>{p.old} Kč</s> : null}
-                </span>
+
+          <div className="occasion-box">
+            <h3>Pro jakou příležitost? 💌</h3>
+            <p>Vyber náladu — obsah a vzkaz v balení doladíme přesně na míru.</p>
+            <div className="occasion-pills" id="occasionPills">
+              {occasions.map((o) => (
                 <button
+                  key={o.n}
                   type="button"
-                  className="add"
-                  onClick={() => addToCart(p.name, p.price)}
+                  className={`pill${selectedOccasion === o.n ? " active" : ""}`}
+                  onClick={() => {
+                    setSelectedOccasion(o.n);
+                    setOccasionResult(
+                      `Vybráno: ${o.e} ${o.n} — teď zvol velikost ↓`,
+                    );
+                  }}
                 >
-                  Přidat do košíku 🛒
+                  {o.e} {o.n}
                 </button>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="occasion-result" id="occasionResult">
+              {occasionResult}
+            </div>
+            <div className="person-wrap">
+              <label htmlFor="personName">
+                Pro koho to je? Napiš jméno na kartičku 💌
+              </label>
+              <input
+                className="person-input"
+                id="personName"
+                type="text"
+                maxLength={40}
+                placeholder="např. Pro Aničku ♡ (nepovinné)"
+                value={personName}
+                onChange={(e) => setPersonName(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <p className="size-heading">A teď velikost:</p>
+          <div className="product-showcase" id="productGrid">
+            {products.map((p) => {
+              const savings =
+                p.old && p.old > p.price
+                  ? Math.round(((p.old - p.price) / p.old) * 100)
+                  : null;
+
+              return (
+                <article
+                  key={p.name}
+                  className={`product-card product-card--${p.tier}${p.badge ? " product-card--tagged" : ""}`}
+                >
+                  {p.badge ? (
+                    <span className="product-card__ribbon">{p.badge}</span>
+                  ) : null}
+                  <div className="product-card__head">
+                    <span className="product-card__tier">{p.tagline}</span>
+                    <div className="product-card__emoji">{p.emoji}</div>
+                    <h3>{p.name}</h3>
+                  </div>
+                  {p.gold > 0 ? (
+                    <div className="gold-stuha">✨ Šance na gold: {p.gold}%</div>
+                  ) : null}
+                  <div className="product-card__price">
+                    <span className="product-card__amount">
+                      {p.old ? <s>{p.old} Kč</s> : null}
+                      {p.price} Kč
+                    </span>
+                    {savings ? (
+                      <span className="product-card__save">
+                        Ušetříš {savings} %
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="product-card__desc">{p.desc}</p>
+                  <ul className="product-card__perks">
+                    {p.perks.map((perk) => (
+                      <li key={perk}>{perk}</li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    className="product-card__cta"
+                    onClick={() => addToCart(p.name, p.price)}
+                  >
+                    {p.tier === "hero"
+                      ? "Chci Mega Box 🛒"
+                      : p.tier === "lux"
+                        ? "Chci Luxury Box 💎"
+                        : "Přidat do košíku 🛒"}
+                  </button>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -551,12 +663,14 @@ export default function MochiBoxPage() {
             <h2>Korálkový klíč 🔮</h2>
           </div>
           <p className="sec-sub">
-            Každá barva korálku schovává jeden druh překvapení. Nauč se klíč a u
-            videa budeš přesně vědět, co se chystá! 🎲
+            Korálky mají <b>tři úrovně hodnoty</b>: kulaté barevné = základní věci,{" "}
+            <b>tvarované = hodnotnější dárky</b>, zlatý = vzácný jackpot. U videa
+            hned poznáš, co padlo! 🎲
           </p>
+          <h3 className="bead-subhead">🔵 Základní · kulaté barevné korálky</h3>
           <div className="bead-grid" id="beadGrid">
-            {beads.map((b) => {
-              const special = b.c === "holo" || b.c === "gold";
+            {beadsRound.map((b) => {
+              const special = b.c === "gem";
               return (
                 <div key={b.name} className="bead-row">
                   <span
@@ -573,10 +687,33 @@ export default function MochiBoxPage() {
               );
             })}
           </div>
+          <h3 className="bead-subhead">
+            🎁 Střední vrstva · tvarované korálky (hodnotnější dárky)
+          </h3>
+          <div className="bead-grid" id="beadGridShaped">
+            {beadsShaped.map((b) => (
+              <div key={b.name} className="bead-row">
+                <span className="bead-shape">{b.s}</span>
+                <span className="lbl">
+                  <b>
+                    {b.e} {b.name}
+                  </b>
+                  <span>{b.note}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          <h3 className="bead-subhead">🏆 Top · vzácný zlatý korálek</h3>
+          <div className="gold-showcase">
+            <span className="bead gold" />
+            <div>
+              <b>✨ Vzácný bonus</b>
+              <span className="sub">zlatý korálek · prémiový dárek zdarma</span>
+            </div>
+          </div>
           <p className="bead-note">
-            ✨ A pak jsou tu <b>zlaté korálky</b> — ty se objeví jen výjimečně a
-            znamenají <b>vzácný bonus</b> navíc. Když uslyšíš to cinknutí zlata,
-            je to výhra! 🏆
+            Zlatý korálek se objeví jen výjimečně (cca 1 box z 20–30). Když
+            uslyšíš to cinknutí zlata, je to výhra — prémiový dárek navíc! 🏆
           </p>
         </div>
       </section>
