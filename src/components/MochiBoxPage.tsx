@@ -2,7 +2,17 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import CartDrawer from "@/components/CartDrawer";
 import LogoMark from "@/components/LogoMark";
+import {
+  addCartLine,
+  cartCount,
+  loadCart,
+  removeCartLine,
+  saveCart,
+  updateCartQty,
+  type CartItem,
+} from "@/lib/cart";
 import {
   beadsRound,
   beadsShaped,
@@ -66,7 +76,10 @@ function RibbonSpans() {
 }
 
 export default function MochiBoxPage() {
-  const [cart, setCart] = useState(0);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+  const [cartReady, setCartReady] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [newsEmail, setNewsEmail] = useState("");
@@ -172,6 +185,32 @@ export default function MochiBoxPage() {
     };
   }, [resizeCanvas]);
 
+  useEffect(() => {
+    setCartItems(loadCart());
+    setCartReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (cartReady) saveCart(cartItems);
+  }, [cartItems, cartReady]);
+
+  const closeNav = useCallback(() => setNavOpen(false), []);
+
+  useEffect(() => {
+    if (!cartOpen && !navOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (cartOpen) setCartOpen(false);
+      if (navOpen) setNavOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [cartOpen, navOpen]);
+
   const toast = useCallback((msg: string) => {
     setToastMsg(msg);
     setToastVisible(true);
@@ -180,14 +219,40 @@ export default function MochiBoxPage() {
   }, []);
 
   const addToCart = useCallback(
-    (name: string, price: number) => {
-      setCart((c) => c + 1);
-      const occ = selectedOccasion ? ` · ${selectedOccasion}` : "";
-      const forWho = personName.trim() ? ` · ${personName.trim()}` : "";
-      toast(`💝 Přidáno: ${name}${occ}${forWho} (${price} Kč)`);
+    (
+      name: string,
+      price: number,
+      emoji: string,
+      options?: { occasion?: string; personName?: string },
+    ) => {
+      setCartItems((items) =>
+        addCartLine(items, {
+          name,
+          emoji,
+          price,
+          occasion: options?.occasion ?? selectedOccasion,
+          personName: options?.personName ?? personName,
+        }),
+      );
+      setCartOpen(true);
+      toast(`💝 Přidáno do košíku: ${name}`);
     },
     [toast, selectedOccasion, personName],
   );
+
+  const handleCheckout = useCallback(() => {
+    if (cartItems.length === 0) return;
+    const count = cartCount(cartItems);
+    const subtotal = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
+    const shipping = subtotal >= 800 ? 0 : 89;
+    const total = subtotal + shipping;
+    confettiBurst(100);
+    setCartItems([]);
+    setCartOpen(false);
+    toast(
+      `🎉 Objednávka odeslána! ${count} položek za ${total.toLocaleString("cs-CZ")} Kč — brzy ti napíšeme 💌`,
+    );
+  }, [cartItems, confettiBurst, toast]);
 
   const subscribe = useCallback(() => {
     if (newsEmail && newsEmail.includes("@")) {
@@ -238,29 +303,66 @@ export default function MochiBoxPage() {
   return (
     <>
       <nav>
-        <a className="logo" href="#top">
+        <a className="logo" href="#top" onClick={closeNav}>
           <LogoMark className="logo-mark" />
           <span>
             <b>Mochi&nbsp;Box</b>
             <small>もこもこ · MYSTERY SHOP</small>
           </span>
         </a>
-        <div className="navlinks">
-          <a href="#boxmesice">Box měsíce</a>
-          <a href="#boxy">Boxy</a>
-          <a href="#gacha">Vyzkoušej</a>
-          <a href="#uvnitr">Co je uvnitř</a>
-          <a href="#baleni">Jak balíme</a>
-          <a href="#recenze">Recenze</a>
+        <div className="nav-actions">
+          <button
+            type="button"
+            className="nav-burger"
+            aria-expanded={navOpen}
+            aria-controls="nav-menu"
+            aria-label={navOpen ? "Zavřít menu" : "Otevřít menu"}
+            onClick={() => setNavOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <div className={`navlinks${navOpen ? " open" : ""}`} id="nav-menu">
+            <a href="#boxmesice" onClick={closeNav}>
+              Box měsíce
+            </a>
+            <a href="#boxy" onClick={closeNav}>
+              Boxy
+            </a>
+            <a href="#gacha" onClick={closeNav}>
+              Vyzkoušej
+            </a>
+            <a href="#uvnitr" onClick={closeNav}>
+              Co je uvnitř
+            </a>
+            <a href="#baleni" onClick={closeNav}>
+              Jak balíme
+            </a>
+            <a href="#recenze" onClick={closeNav}>
+              Recenze
+            </a>
+          </div>
+          <button
+            type="button"
+            className="cart-btn"
+            onClick={() => {
+              closeNav();
+              setCartOpen(true);
+            }}
+            aria-label={`Košík, ${cartCount(cartItems)} položek`}
+          >
+            Košík <span className="cart-count">{cartCount(cartItems)}</span>
+          </button>
         </div>
-        <button
-          type="button"
-          className="cart-btn"
-          onClick={() => toast("🛒 Tvůj košík je připravený!")}
-        >
-          Košík <span className="cart-count">{cart}</span>
-        </button>
       </nav>
+      <button
+        type="button"
+        className={`nav-scrim${navOpen ? " open" : ""}`}
+        aria-hidden={!navOpen}
+        tabIndex={navOpen ? 0 : -1}
+        onClick={closeNav}
+      />
 
       <header className="hero" id="top">
         <svg className="doodle d1" viewBox="0 0 100 100">
@@ -377,7 +479,12 @@ export default function MochiBoxPage() {
             <button
               type="button"
               className="month-btn"
-              onClick={() => addToCart(monthBox.cartName, monthBox.price)}
+              onClick={() =>
+                addToCart(monthBox.cartName, monthBox.price, monthBox.emoji, {
+                  occasion: "",
+                  personName: "",
+                })
+              }
             >
               Chci ho! 🐱
             </button>
@@ -553,7 +660,7 @@ export default function MochiBoxPage() {
                   <button
                     type="button"
                     className="product-card__cta"
-                    onClick={() => addToCart(p.name, p.price)}
+                    onClick={() => addToCart(p.name, p.price, p.emoji)}
                   >
                     {p.tier === "hero"
                       ? "Chci Mega Box 🛒"
@@ -916,6 +1023,19 @@ export default function MochiBoxPage() {
           demo e-shop
         </p>
       </footer>
+
+      <CartDrawer
+        open={cartOpen}
+        items={cartItems}
+        onClose={() => setCartOpen(false)}
+        onQtyChange={(id, delta) =>
+          setCartItems((items) => updateCartQty(items, id, delta))
+        }
+        onRemove={(id) =>
+          setCartItems((items) => removeCartLine(items, id))
+        }
+        onCheckout={handleCheckout}
+      />
 
       <div id="toast" className={toastVisible ? "show" : ""}>
         {toastMsg}
