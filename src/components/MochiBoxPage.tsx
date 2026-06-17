@@ -215,7 +215,10 @@ export default function MochiBoxPage() {
     setToastMsg(msg);
     setToastVisible(true);
     if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToastVisible(false), 2600);
+    toastTimer.current = setTimeout(() => {
+      setToastVisible(false);
+      setToastMsg("");
+    }, 2600);
   }, []);
 
   const addToCart = useCallback(
