@@ -727,7 +727,6 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:150}
   .hero h1{text-shadow:3px 3px 0 #fff,5px 5px 0 var(--strawberry)}
   .hero-cta{gap:12px}
   .hero-cta .btn{padding:14px 22px;font-size:.95rem}
-  .doodle{width:48px!important;opacity:.7}
   .product-showcase{grid-template-columns:1fr;max-width:360px;margin:0 auto}
   .gacha{padding:32px 18px 28px;border-radius:28px}
   .box-stage{height:190px}
@@ -743,10 +742,14 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:150}
   .cart-drawer__close{width:44px;height:44px}
   #toast{bottom:calc(18px + env(safe-area-inset-bottom,0));max-width:calc(100vw - 32px);text-align:center}
 }
+
 @media(max-width:768px){
   html{overflow-x:clip;background:var(--milk)}
-  body{padding-bottom:0;margin-bottom:0;overflow-x:clip}
-  footer{margin-bottom:0;padding-bottom:max(24px,env(safe-area-inset-bottom,0px))}
+  body{padding-bottom:0;margin-bottom:0;overflow-x:clip;background:var(--milk)}
+  footer{
+    margin-bottom:0;
+    padding-bottom:max(24px,env(safe-area-inset-bottom,0px));
+  }
   .cart-drawer{width:100%;max-width:100%}
   .cart-backdrop{max-width:100vw}
   /* hero doodles — peach/butter dekorace překrývala spodní okraj obrazovky */
